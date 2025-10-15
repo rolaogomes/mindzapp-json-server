@@ -13,15 +13,14 @@ import {
   saveUser,
   setEmail,
 } from "../lib/store";
+import type { AccountEntry } from "../lib/accountStore";
 import {
-  AccountEntry,
   findByEmail,
   findByUsername,
+  findByVerifyToken,
+  findByResetToken,
   insertAccount,
   updateAccount,
-  findValidVerifyToken,
-  findValidResetToken,
-  isoInSeconds,
 } from "../lib/accountStore";
 import { sendMail } from "../lib/mailer";
 
