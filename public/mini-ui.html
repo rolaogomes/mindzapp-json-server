@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <title>MindZapp – Mini Auth</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root { color-scheme: dark; }
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;background:#0b1020;color:#ecf0ff;display:grid;place-items:center;min-height:100vh;margin:0}
+    .card{background:#121936;border:1px solid #1b2452;border-radius:14px;max-width:560px;width:100%;padding:24px;box-shadow:0 6px 30px rgba(0,0,0,.25)}
+    h1{font-size:20px;margin:0 0 16px}
+    label{display:block;margin:10px 0 4px;font-size:14px;color:#a9b7ff}
+    input{width:100%;padding:10px;border-radius:10px;border:1px solid #283160;background:#0e1533;color:#fff}
+    button{margin-top:14px;padding:10px 14px;border-radius:10px;border:0;background:#5b7cfa;color:#fff;cursor:pointer}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    pre{white-space:pre-wrap;background:#0e1533;border:1px solid #283160;padding:12px;border-radius:10px;max-height:260px;overflow:auto}
+    small{color:#9ab0ff}
+    a{color:#9ab0ff}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>MindZapp – Registo & Login</h1>
+
+    <div class="row">
+      <div>
+        <h2 style="font-size:16px;margin:0 0 8px">Registar</h2>
+        <label>Email</label><input id="regEmail" type="email" placeholder="tu@exemplo.com">
+        <label>Username</label><input id="regUser"  type="text"  placeholder="apelido">
+        <label>Password</label><input id="regPass"  type="password" placeholder="min 6 chars">
+        <button id="btnReg">Criar conta</button>
+        <small>Dica: em DEV o link de verificação aparece no terminal do servidor.</small>
+      </div>
+      <div>
+        <h2 style="font-size:16px;margin:0 0 8px">Login</h2>
+        <label>Email</label><input id="logEmail" type="email" placeholder="tu@exemplo.com">
+        <label>Password</label><input id="logPass" type="password">
+        <button id="btnLogin">Entrar</button>
+        <small>Depois do login, copia os headers para usar na app.</small>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+    <details>
+      <summary>Esqueci a password</summary>
+      <div style="margin-top:8px">
+        <label>Email</label><input id="resEmail" type="email" placeholder="tu@exemplo.com">
+        <button id="btnReset">Enviar link de reposição</button>
+        <small>Vê o terminal do servidor pelo link de reset (em DEV).</small>
+      </div>
+    </details>
+
+    <div style="height:18px"></div>
+    <pre id="out">Pronto para começar…</pre>
+  </div>
+
+  <!-- JS externo para cumprir a CSP (script-src 'self') -->
+  <script src="/js/mini-ui.js" defer></script>
+</body>
+</html>

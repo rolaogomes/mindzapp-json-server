@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>MindZapp WS Test</h1>
+    <pre id="log"></pre>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script>
+      // preenche com os teus valores
+      const uid = new URLSearchParams(location.search).get("uid");
+      const ds  = new URLSearchParams(location.search).get("ds");
+      const log = (m) => (document.getElementById("log").textContent += m + "\n");
+
+      const socket = io("/", { query: { uid, ds } });
+
+      socket.on("connect", () => log("connected: " + socket.id));
+      socket.on("lobby:update", (p) => log("lobby:update " + JSON.stringify(p)));
+      socket.on("lobby:question", (p) => log("lobby:question " + JSON.stringify(p)));
+      socket.on("lobby:scores", (p) => log("lobby:scores " + JSON.stringify(p)));
+      socket.on("lobby:finished", (p) => log("lobby:finished " + JSON.stringify(p)));
+
+      // helpers no console:
+      // join por ID: socket.emit('battles:join', { lobbyId: 'XXXX' }, console.log)
+      // start (host): socket.emit('battles:start', { lobbyId: 'XXXX' }, console.log)
+      // next (host):  socket.emit('battles:next',  { lobbyId: 'XXXX' }, console.log)
+      // responder TF: socket.emit('battles:answer',{ lobbyId:'XXXX', answer:{answer:true}}, console.log)
+      // responder MCQ_SINGLE: socket.emit('battles:answer',{ lobbyId:'XXXX', answer:{index:0}}, console.log)
+      // responder MCQ_MULTI:  socket.emit('battles:answer',{ lobbyId:'XXXX', answer:{indices:[0,2]}}, console.log)
+    </script>
+  </body>
+</html>

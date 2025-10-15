@@ -1,0 +1,48 @@
+{
+  "id": "g09kEcrULOf6",
+  "username": "rolaogomes",
+  "createdAt": "2025-10-15T21:12:15.363Z",
+  "updatedAt": "2025-10-15T21:24:13.956Z",
+  "profile": {
+    "privacy": "PUBLIC"
+  },
+  "prefs": {
+    "language": "pt-PT",
+    "theme": "system",
+    "notifications": {
+      "email": false,
+      "push": false
+    },
+    "solo": {
+      "intervals": {
+        "VERY_HARD": 30,
+        "HARD": 180,
+        "MEDIUM": 3600,
+        "EASY": 86400
+      }
+    }
+  },
+  "wallet": {
+    "balance": 0,
+    "transactions": []
+  },
+  "decks": [],
+  "progress": {},
+  "friends": {
+    "accepted": [],
+    "pending": []
+  },
+  "stats": {
+    "answersTotal": 0,
+    "correctTotal": 0,
+    "streakBest": 0
+  },
+  "auth": {
+    "deviceSecrets": [
+      "Q1AH5ZfTRqWe4cRF5RyHBSaY7wnS1_Dy",
+      "Kv-MCU5t-TncoUyiVwcd76h_jxNc4nQ3"
+    ],
+    "emailVerified": true,
+    "email": "ruben.miguel.rolao.gomes@gmail.com"
+  }
+}

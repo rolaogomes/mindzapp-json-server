@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "accounts": [
+    {
+      "userId": "g09kEcrULOf6",
+      "email": "ruben.miguel.rolao.gomes@gmail.com",
+      "emailLower": "ruben.miguel.rolao.gomes@gmail.com",
+      "username": "rolaogomes",
+      "usernameLower": "rolaogomes",
+      "passwordHash": "$2b$10$08lFtDydaJrnIXQz/2AnU.OBJpGwHa8rj5aPOubpxAk7AN9OtXn16",
+      "verified": true,
+      "verifyToken": null,
+      "resetToken": null,
+      "createdAt": "2025-10-15T21:12:15.446Z",
+      "updatedAt": "2025-10-15T21:12:52.572Z"
+    }
+  ]
+}
