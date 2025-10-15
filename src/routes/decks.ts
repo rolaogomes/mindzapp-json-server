@@ -1,16 +1,10 @@
 import express from "express";
 import { z } from "zod";
-import {
-  upsertDeck,
-  listPublicDecks,
-  loadUser,
-  saveUser,
-  listUserIds,
-  UserFile,
-  Deck,
-} from "../lib/store";
+import type { UserFile, Deck } from "../lib/store";
+import { /* ...as mesmas funções que já tinhas... */ } from "../lib/store";
 import type { DeckInput, CardInput } from "../lib/store";
-import { authRequired, AuthenticatedRequest } from "./auth";
+import { authRequired } from "./auth";
+import type { AuthenticatedRequest } from "./auth";
 
 export const decksRouter = express.Router();
 
