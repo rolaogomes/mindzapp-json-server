@@ -2,14 +2,8 @@
 import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import { z } from "zod";
-import {
-  createUser,
-  addDeviceSecret,
-  findUserByUsername,
-  loadUser,
-  saveUser,
-  UserFile,
-} from "../lib/store";
+import { createUser, addDeviceSecret, findUserByUsername, loadUser, saveUser } from "../lib/store";
+import type { UserFile } from "../lib/store";
 
 export const authRouter = express.Router();
 
