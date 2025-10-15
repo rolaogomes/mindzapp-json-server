@@ -17,10 +17,11 @@ import type { AccountEntry } from "../lib/accountStore";
 import {
   findByEmail,
   findByUsername,
-  findByVerifyToken,
-  findByResetToken,
+  findValidVerifyToken,
+  findValidResetToken,
   insertAccount,
   updateAccount,
+  isoInSeconds,
 } from "../lib/accountStore";
 import { sendMail } from "../lib/mailer";
 
