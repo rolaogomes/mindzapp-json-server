@@ -15,6 +15,11 @@ function splitCsv(v: string | undefined, def: string[] = ["*"]): string[] {
   return v.split(",").map((s) => s.trim()).filter(Boolean);
 }
 
+function emptyToUndefined<T>(v: T): T | undefined {
+  if (typeof v === "string" && v.trim() === "") return undefined;
+  return v;
+}
+
 /* ------- Raw env schema (strings/nums) ------- */
 const EnvSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
@@ -26,7 +31,7 @@ const EnvSchema = z.object({
   MAIL_FROM: z.string().optional().default("MindZapp <mindzapp@localhost>"),
   SMTP_URL: z.string().optional(),
   SMTP_HOST: z.string().optional(),
-  SMTP_PORT: z.coerce.number().int().positive().default(587),
+  SMTP_PORT: z.preprocess(emptyToUndefined, z.coerce.number().int().positive().default(587)),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
   SMTP_SECURE: z.string().optional().default("false"),
