@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rawArgs = process.argv.slice(2);
@@ -18,9 +19,14 @@ const translatedArgs = withoutRunInBand.flatMap(arg => {
   return [arg];
 });
 
-const testDir = fileURLToPath(new URL('../tests', import.meta.url));
-const loaderPath = fileURLToPath(new URL('./ts-loader.mjs', import.meta.url));
-const nodeArgs = ['--loader', loaderPath, ...translatedArgs, '--test', testDir];
+const testDirUrl = new URL('../tests', import.meta.url);
+const loaderUrl = new URL('./ts-loader.mjs', import.meta.url);
+
+const testDirPath = fileURLToPath(testDirUrl);
+const relativeTestDir = path.relative(process.cwd(), testDirPath);
+const testArg = relativeTestDir === '' ? testDirUrl.href : relativeTestDir;
+
+const nodeArgs = ['--loader', loaderUrl.href, ...translatedArgs, '--test', testArg];
 
 const result = spawnSync(process.execPath, nodeArgs, {
   stdio: 'inherit',
