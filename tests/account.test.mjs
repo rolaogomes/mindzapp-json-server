@@ -1,4 +1,4 @@
-import { describe, it, before, after } from "node:test";
+import { describe, it, before, after, beforeEach } from "node:test";
 import assert from "node:assert/strict";
 import request from "supertest";
 import express from "express";
@@ -14,6 +14,8 @@ process.env.BCRYPT_COST = process.env.BCRYPT_COST || "10";
 
 let app;
 let mails = [];
+let config;
+let defaultBaseUrl;
 const origLog = console.log;
 
 // intercepta logs do mailer ([DEV-MAIL])
@@ -50,6 +52,8 @@ before(async () => {
 
   // importa routers *depois* de mudar cwd/env
   const { accountsRouter } = await import("../src/routes/accounts.ts");
+  ({ default: config } = await import("../src/config.ts"));
+  defaultBaseUrl = config?.baseUrl;
 
   // monta um app só com o necessário para os testes
   app = express();
@@ -59,6 +63,11 @@ before(async () => {
 
 after(() => {
   unhookMailerLogs();
+});
+
+beforeEach(() => {
+  mails = [];
+  if (config) config.baseUrl = defaultBaseUrl;
 });
 
 describe("Accounts API flow", () => {
@@ -177,5 +186,39 @@ describe("Accounts API flow", () => {
       .send({ email: `other.${rnd}@example.com`, username, password });
     assert.strictEqual(dupUser.status, 409);
     assert.strictEqual(dupUser.body?.error, "USERNAME_TAKEN");
+  });
+
+  it("should avoid duplicate slashes when PUBLIC_BASE_URL has trailing slash", async () => {
+    assert.ok(config, "config not loaded");
+    config.baseUrl = "https://app.example.com/app/";
+
+    const rnd = Math.random().toString(36).slice(2, 8);
+    const email = `slash.${rnd}@example.com`;
+    const username = `slash_user_${rnd}`;
+    const password = "slashPass1!";
+
+    const reg = await request(app)
+      .post("/accounts/register")
+      .send({ email, username, password });
+    assert.strictEqual(reg.status, 201);
+
+    const mailVerify = mails.find(m => m.subject?.includes("Confirmar conta"));
+    assert.ok(mailVerify, "verification mail not captured");
+    const verifyUrl = extractFirstUrl(mailVerify?.text);
+    assert.ok(verifyUrl, "verification link not found");
+    const verifyParsed = new URL(verifyUrl);
+    assert.strictEqual(verifyParsed.pathname, "/app/accounts/verify");
+
+    const initReset = await request(app)
+      .post("/accounts/reset/initiate")
+      .send({ email });
+    assert.strictEqual(initReset.status, 200);
+
+    const mailReset = mails.find(m => m.subject?.includes("Repor password"));
+    assert.ok(mailReset, "reset mail not captured");
+    const resetUrl = extractFirstUrl(mailReset?.text);
+    assert.ok(resetUrl, "reset link not found");
+    const resetParsed = new URL(resetUrl);
+    assert.strictEqual(resetParsed.pathname, "/app/accounts/reset");
   });
 });

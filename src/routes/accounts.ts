@@ -60,8 +60,20 @@ const Login = z.object({
 function nowISO() {
   return new Date().toISOString();
 }
+function normalizeBaseUrl(url: string | undefined | null) {
+  if (!url) return undefined;
+  const trimmed = url.trim();
+  if (!trimmed) return undefined;
+  return trimmed.replace(/\/+$/, "");
+}
+
 function baseUrl(req: express.Request) {
-  return config.baseUrl ?? `${req.protocol}://${req.get("host")}`;
+  const fromConfig = normalizeBaseUrl(config.baseUrl);
+  if (fromConfig) return fromConfig;
+
+  const host = req.get("host");
+  const derived = normalizeBaseUrl(host ? `${req.protocol}://${host}` : undefined);
+  return derived ?? `${req.protocol}://localhost`;
 }
 
 /** POST /accounts/register */

@@ -10,6 +10,7 @@ import pinoHttp from "pino-http";
 import fs from "fs";
 import path from "path";
 
+import config from "./config";
 import { accountsRouter } from "./routes/accounts";
 import { authRouter } from "./routes/auth";
 import { decksRouter } from "./routes/decks";
@@ -18,7 +19,7 @@ import { battlesRouter } from "./routes/battles";
 import { battleHub } from "./services/battleHub";
 import { attachBattleSockets } from "./sockets/battles";
 
-const PORT = Number(process.env.PORT || 4321);
+const PORT = config.port;
 const DATA_DIR = path.join(process.cwd(), "data");
 const USERS_DIR = path.join(DATA_DIR, "users");
 
@@ -54,15 +55,11 @@ app.use(
 app.use(compression());
 
 // CORS (abre em dev; em prod usa CORS_ORIGIN="https://app.tld,https://admin.tld")
-const origins =
-  (process.env.CORS_ORIGIN || "*")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+const origins = config.cors.origins;
 
 app.use(
   cors({
-    origin: origins.includes("*")
+    origin: config.cors.allowAny
       ? true
       : (origin, cb) => {
           if (!origin) return cb(null, true); // permite file:// e curl
@@ -92,7 +89,7 @@ app.get("/health", (_req, res) => {
     ok: true,
     ts: new Date().toISOString(),
     usersCount,
-    env: { node: process.version, port: PORT, mode: process.env.NODE_ENV || "development" },
+    env: { node: process.version, port: PORT, mode: config.env },
   });
 });
 
@@ -134,7 +131,7 @@ server.headersTimeout = 65_000;
 
 export const io = new SocketIOServer(server, {
   cors: {
-    origin: origins.includes("*") ? true : origins,
+    origin: config.cors.allowAny ? true : origins,
     credentials: true,
   },
 });
