@@ -3,15 +3,28 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const rawArgs = process.argv.slice(2);
-const filteredArgs = rawArgs.filter((arg) => arg !== '--runInBand');
-
-if (rawArgs.length !== filteredArgs.length) {
-  console.warn('The `--runInBand` flag is not supported by Vitest and will be ignored.');
+const withoutRunInBand = rawArgs.filter(arg => arg !== '--runInBand');
+if (rawArgs.length !== withoutRunInBand.length) {
+  console.warn('The `--runInBand` flag is not supported by the test runner and will be ignored.');
 }
 
-const vitestPath = fileURLToPath(new URL('../node_modules/vitest/vitest.mjs', import.meta.url));
-const result = spawnSync(process.execPath, [vitestPath, ...filteredArgs], {
+const translatedArgs = withoutRunInBand.flatMap(arg => {
+  if (arg === 'run') {
+    return [];
+  }
+  if (arg === '--coverage') {
+    return ['--experimental-test-coverage'];
+  }
+  return [arg];
+});
+
+const testDir = fileURLToPath(new URL('../tests', import.meta.url));
+const loaderPath = fileURLToPath(new URL('./ts-loader.mjs', import.meta.url));
+const nodeArgs = ['--loader', loaderPath, ...translatedArgs, '--test', testDir];
+
+const result = spawnSync(process.execPath, nodeArgs, {
   stdio: 'inherit',
+  env: process.env,
 });
 
 if (result.error) {

@@ -2,7 +2,7 @@
   "id": "g09kEcrULOf6",
   "username": "rolaogomes",
   "createdAt": "2025-10-15T21:12:15.363Z",
-  "updatedAt": "2025-10-15T21:24:13.956Z",
+  "updatedAt": "2025-10-16T14:28:42.006Z",
   "profile": {
     "privacy": "PUBLIC"
   },
@@ -40,7 +40,8 @@
   "auth": {
     "deviceSecrets": [
       "Q1AH5ZfTRqWe4cRF5RyHBSaY7wnS1_Dy",
-      "Kv-MCU5t-TncoUyiVwcd76h_jxNc4nQ3"
+      "Kv-MCU5t-TncoUyiVwcd76h_jxNc4nQ3",
+      "kCA69g1g2Oh8KWwOmVEzlSkV9rNfh1h5"
     ],
     "emailVerified": true,
     "email": "ruben.miguel.rolao.gomes@gmail.com"
