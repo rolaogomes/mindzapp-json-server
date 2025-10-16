@@ -1,15 +1,10 @@
 import express from "express";
 import { z } from "zod";
 import { nanoid } from "nanoid";
-import {
-  loadUser,
-  saveUser,
-  appendTransaction,
-  listUserIds,
-  UserFile,
-  Deck,
-} from "../lib/store";
-import { authRequired, AuthenticatedRequest } from "./auth";
+import { loadUser, saveUser, appendTransaction, listUserIds } from "../lib/store";
+import type { UserFile, Deck } from "../lib/store";
+import { authRequired } from "./auth";
+import type { AuthenticatedRequest } from "./auth";
 
 export const soloRouter = express.Router();
 

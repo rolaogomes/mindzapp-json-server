@@ -1,6 +1,7 @@
 import { Server as SocketIOServer } from "socket.io";
 import { nanoid } from "nanoid";
-import { loadUser, saveUser, appendTransaction, Deck, UserFile, listUserIds } from "../lib/store";
+import { loadUser, saveUser, appendTransaction, listUserIds } from "../lib/store";
+import type { Deck, UserFile } from "../lib/store";
 
 /** Tipos suportados em battles */
 const ELIGIBLE_TYPES = new Set<Deck["cards"][number]["type"]>([

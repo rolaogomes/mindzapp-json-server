@@ -1,7 +1,9 @@
 import express from "express";
 import { z } from "zod";
-import { authRequired, AuthenticatedRequest } from "./auth";
-import { battleHub, Lobby } from "../services/battleHub";
+import { authRequired } from "./auth";
+import type { AuthenticatedRequest } from "./auth";
+import { battleHub } from "../services/battleHub";
+import type { Lobby } from "../services/battleHub";
 
 export const battlesRouter = express.Router();
 

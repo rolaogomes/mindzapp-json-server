@@ -1,8 +1,13 @@
 import express from "express";
 import { z } from "zod";
-import type { UserFile, Deck } from "../lib/store";
-import { /* ...as mesmas funções que já tinhas... */ } from "../lib/store";
-import type { DeckInput, CardInput } from "../lib/store";
+import {
+  listUserIds,
+  loadUser,
+  upsertDeck,
+  listPublicDecks,
+  saveUser,
+} from "../lib/store";
+import type { UserFile, Deck, DeckInput, CardInput } from "../lib/store";
 import { authRequired } from "./auth";
 import type { AuthenticatedRequest } from "./auth";
 
