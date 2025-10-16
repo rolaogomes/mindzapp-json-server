@@ -2,6 +2,7 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import fg from 'fast-glob';
 
 const rawArgs = process.argv.slice(2);
 const withoutRunInBand = rawArgs.filter(arg => arg !== '--runInBand');
@@ -23,10 +24,23 @@ const testDirUrl = new URL('../tests', import.meta.url);
 const loaderUrl = new URL('./ts-loader.mjs', import.meta.url);
 
 const testDirPath = fileURLToPath(testDirUrl);
-const relativeTestDir = path.relative(process.cwd(), testDirPath);
-const testArg = relativeTestDir === '' ? testDirUrl.href : relativeTestDir;
+const testFiles = await fg('**/*.test.{js,cjs,mjs,ts,tsx}', {
+  cwd: testDirPath,
+  absolute: true,
+  suppressErrors: true,
+});
 
-const nodeArgs = ['--loader', loaderUrl.href, ...translatedArgs, '--test', testArg];
+const testArgs = testFiles.map(file => {
+  if (path.isAbsolute(file)) {
+    return file;
+  }
+  return path.resolve(file);
+});
+if (testArgs.length === 0) {
+  console.warn('No test files found in the tests directory. Running default discovery.');
+}
+
+const nodeArgs = ['--loader', loaderUrl.href, ...translatedArgs, '--test', ...testArgs];
 
 const result = spawnSync(process.execPath, nodeArgs, {
   stdio: 'inherit',
