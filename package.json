@@ -10,10 +10,10 @@
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/index.ts",
     "lint": "echo \"(eslint opcional no MVP)\"",
-    "test": "node node_modules/vitest/vitest.mjs",
-    "test:run": "node node_modules/vitest/vitest.mjs run",
-    "test:watch": "node node_modules/vitest/vitest.mjs --watch",
-    "test:coverage": "node node_modules/vitest/vitest.mjs run --coverage",
+    "test": "node scripts/run-tests.mjs",
+    "test:run": "node scripts/run-tests.mjs run",
+    "test:watch": "node scripts/run-tests.mjs --watch",
+    "test:coverage": "node scripts/run-tests.mjs run --coverage",
     "create-user": "tsx scripts/create-user.ts"
   },
   "dependencies": {
